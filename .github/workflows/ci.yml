@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "design/**", "implementation/**"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --all-groups
+      - run: uv run python -m compileall -q src
+      - run: uv run pytest -q
+      - name: Build Ruff autofix diagnostic tree
+        shell: bash
+        run: |
+          rm -rf ci-autofix
+          mkdir -p ci-autofix
+          cp -a src tests ci-autofix/
+          uv run ruff format --config "$GITHUB_WORKSPACE/pyproject.toml" ci-autofix/src ci-autofix/tests
+          uv run ruff check --fix --config "$GITHUB_WORKSPACE/pyproject.toml" ci-autofix/src ci-autofix/tests || true
+      - name: Ruff
+        id: ruff
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          uv run ruff check src tests 2>&1 | tee ruff.txt
+      - name: Mypy
+        id: mypy
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          uv run mypy src 2>&1 | tee mypy.txt
+      - name: Shell syntax
+        id: shell
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          bash -n scripts/bootstrap-target.sh scripts/setup-vps.sh 2>&1 | tee shell.txt
+      - name: Upload diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-diagnostics
+          path: |
+            ruff.txt
+            mypy.txt
+            shell.txt
+            ci-autofix/
+          if-no-files-found: ignore
+      - name: Enforce quality gates
+        if: always()
+        shell: bash
+        run: |
+          [[ '${{ steps.ruff.outcome }}' == 'success' ]]
+          [[ '${{ steps.mypy.outcome }}' == 'success' ]]
+          [[ '${{ steps.shell.outcome }}' == 'success' ]]

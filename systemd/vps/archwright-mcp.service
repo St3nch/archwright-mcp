@@ -1,0 +1,25 @@
+[Unit]
+Description=Archwright temporary Linux bootstrap MCP
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=archwright
+Group=archwright
+WorkingDirectory=/opt/archwright-mcp
+Environment=ARCHWRIGHT_CONFIG=/etc/archwright/config.toml
+ExecStart=/usr/bin/uv run --frozen archwright-mcp
+Restart=on-failure
+RestartSec=3
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+ReadWritePaths=/var/lib/archwright
+ReadOnlyPaths=/etc/archwright
+LockPersonality=yes
+RestrictRealtime=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,19 @@
+[target]
+name = "sager-arch"
+host = "127.0.0.1"
+port = 2222
+user = "arch-bootstrap"
+identity_file = "/etc/archwright/controller_ed25519"
+known_hosts_file = "/etc/archwright/known_hosts"
+
+[policy]
+expected_target_serial = "25044DB50A3B"
+protected_serials = ["25044DB4D635"]
+
+[runtime]
+state_dir = "/var/lib/archwright"
+staging_dir = "/var/lib/archwright/staging"
+target_staging_dir = "/var/tmp/archwright"
+connect_timeout = 10
+command_timeout = 120
+output_limit_bytes = 262144

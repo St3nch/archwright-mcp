@@ -12,10 +12,13 @@ dependencies = [
   "mcp==2.2.0",
 ]
 
+[project.scripts]
+archwright-mcp = "archwright_mcp.server:main"
+
 [dependency-groups]
 dev = [
   "mypy>=1.17,<2",
-  "pytest>=8.4,<9",
+  "pytest>=8.4,<10",
   "pytest-asyncio>=1.1,<2",
   "ruff>=0.12,<1",
 ]
@@ -25,6 +28,7 @@ packages = ["src/archwright_mcp"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+pythonpath = ["src"]
 asyncio_mode = "auto"
 
 [tool.ruff]

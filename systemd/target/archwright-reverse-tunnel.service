@@ -1,0 +1,15 @@
+[Unit]
+Description=Archwright temporary reverse SSH tunnel to VPS
+After=network-online.target archwright-bootstrap-sshd.service archwright-protect-windows.service
+Wants=network-online.target
+Requires=archwright-bootstrap-sshd.service archwright-protect-windows.service
+
+[Service]
+Type=simple
+User=arch-bootstrap
+ExecStart=/usr/bin/ssh -NT -i /home/arch-bootstrap/.ssh/archwright_tunnel_ed25519 -o BatchMode=yes -o IdentitiesOnly=yes -o UserKnownHostsFile=/home/arch-bootstrap/.ssh/known_hosts -o StrictHostKeyChecking=yes -o ExitOnForwardFailure=yes -o ServerAliveInterval=10 -o ServerAliveCountMax=3 -R 127.0.0.1:2222:127.0.0.1:22222 archwright-tunnel@VPS_HOST_PLACEHOLDER
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
