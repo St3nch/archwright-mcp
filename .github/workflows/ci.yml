@@ -17,6 +17,14 @@ jobs:
       - run: uv sync --all-groups
       - run: uv run python -m compileall -q src
       - run: uv run pytest -q
+      - name: Build Ruff autofix diagnostic tree
+        shell: bash
+        run: |
+          rm -rf ci-autofix
+          mkdir -p ci-autofix
+          cp -a src tests ci-autofix/
+          uv run ruff format --config "$GITHUB_WORKSPACE/pyproject.toml" ci-autofix/src ci-autofix/tests
+          uv run ruff check --fix --config "$GITHUB_WORKSPACE/pyproject.toml" ci-autofix/src ci-autofix/tests || true
       - name: Ruff
         id: ruff
         continue-on-error: true
@@ -47,6 +55,7 @@ jobs:
             ruff.txt
             mypy.txt
             shell.txt
+            ci-autofix/
           if-no-files-found: ignore
       - name: Enforce quality gates
         if: always()
