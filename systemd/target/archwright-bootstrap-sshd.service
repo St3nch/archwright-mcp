@@ -1,0 +1,14 @@
+[Unit]
+Description=Archwright temporary loopback SSH daemon
+After=network.target
+Before=archwright-reverse-tunnel.service
+
+[Service]
+Type=simple
+ExecStartPre=/usr/bin/sshd -t -f /etc/archwright/sshd_config
+ExecStart=/usr/bin/sshd -D -e -f /etc/archwright/sshd_config
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

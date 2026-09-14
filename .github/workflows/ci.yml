@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "design/**", "implementation/**"]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.12"
+          enable-cache: true
+      - run: uv sync --all-groups
+      - run: uv run python -m compileall -q src
+      - run: uv run pytest -q
+      - run: uv run ruff check src tests
+      - run: uv run mypy src
+      - run: bash -n scripts/bootstrap-target.sh scripts/setup-vps.sh

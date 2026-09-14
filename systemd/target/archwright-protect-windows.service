@@ -1,0 +1,13 @@
+[Unit]
+Description=Archwright protected disk read-only enforcement
+After=systemd-udev-settle.service
+Before=archwright-reverse-tunnel.service
+Wants=systemd-udev-settle.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/lib/archwright/protect-disks
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
