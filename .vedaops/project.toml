@@ -1,0 +1,5 @@
+schema_version = 1
+id = "archwright-mcp"
+name = "Archwright MCP"
+mutable = true
+capabilities = ["read", "change", "check"]

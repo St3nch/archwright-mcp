@@ -1,0 +1,92 @@
+{
+  "blockdevices": [
+    {
+      "name": "nvme1n1",
+      "kname": "nvme1n1",
+      "path": "/dev/nvme1n1",
+      "type": "disk",
+      "fstype": null,
+      "uuid": null,
+      "mountpoints": [null],
+      "pkname": null,
+      "model": "CT1000P3PSSD8",
+      "serial": "25044DB50A3B",
+      "ro": false,
+      "wwn": "eui.target",
+      "maj:min": "259:0",
+      "mount_options": [],
+      "holders": [],
+      "by_id_paths": ["/dev/disk/by-id/nvme-CT1000P3PSSD8_25044DB50A3B"],
+      "sysfs_serial": "25044DB50A3B",
+      "namespace_id": "1",
+      "swap_active": false,
+      "children": [
+        {
+          "name": "nvme1n1p2",
+          "kname": "nvme1n1p2",
+          "path": "/dev/nvme1n1p2",
+          "type": "part",
+          "fstype": "ext4",
+          "uuid": "3040811e-143c-418c-870b-5fe57b05dac3",
+          "mountpoints": ["/"],
+          "pkname": "nvme1n1",
+          "model": null,
+          "serial": null,
+          "ro": false,
+          "wwn": null,
+          "maj:min": "259:2",
+          "mount_options": ["rw", "relatime"],
+          "holders": [],
+          "by_id_paths": [],
+          "sysfs_serial": null,
+          "namespace_id": null,
+          "swap_active": false
+        }
+      ]
+    },
+    {
+      "name": "nvme0n1",
+      "kname": "nvme0n1",
+      "path": "/dev/nvme0n1",
+      "type": "disk",
+      "fstype": null,
+      "uuid": null,
+      "mountpoints": [null],
+      "pkname": null,
+      "model": "CT1000P3PSSD8",
+      "serial": "25044DB4D635",
+      "ro": true,
+      "wwn": "eui.windows",
+      "maj:min": "259:1",
+      "mount_options": [],
+      "holders": [],
+      "by_id_paths": ["/dev/disk/by-id/nvme-CT1000P3PSSD8_25044DB4D635"],
+      "sysfs_serial": "25044DB4D635",
+      "namespace_id": "1",
+      "swap_active": false,
+      "children": [
+        {
+          "name": "nvme0n1p3",
+          "kname": "nvme0n1p3",
+          "path": "/dev/nvme0n1p3",
+          "type": "part",
+          "fstype": "ntfs",
+          "uuid": "4C24E29424E28076",
+          "mountpoints": [null],
+          "pkname": "nvme0n1",
+          "model": null,
+          "serial": null,
+          "ro": true,
+          "wwn": null,
+          "maj:min": "259:3",
+          "mount_options": [],
+          "holders": [],
+          "by_id_paths": [],
+          "sysfs_serial": null,
+          "namespace_id": null,
+          "swap_active": false
+        }
+      ]
+    }
+  ]
+}
